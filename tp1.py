@@ -22,7 +22,6 @@ elif ejercicio == 2:
     print(f"e) {(-3)**2}")
     print(f"f) {-(3**2)}")
 
-
 # ejercicio 3
 elif ejercicio == 3:
     print(f"a) {0xf + 0o17 + 0b1111 + 15}")  # hexadecimal 15 + octal 15 + binary 15 + base10 15
