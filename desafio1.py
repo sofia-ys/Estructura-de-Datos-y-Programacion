@@ -83,10 +83,73 @@ elif nivel == "3":
     output = " ".join(palabras)  # join todos los elementos de la lista con un espacio entre ellos
     print(output)
 
+    # 9.
+    palabras = input("Palabras, separadas con un ',': ").replace(" ", "").split(",")  # dividir las por el ","
+    output = ""
+    masCorta = 0
+    if len(palabras[1]) < len(palabras[0]):
+        masCorta = 1  # si palabra en pos 1 es mascorta que palabra pos 0
+    for i in range(len(palabras[masCorta])):
+        output += palabras[0][i] + palabras[1][i]
+    output += " " + palabras[masCorta - 1][i + 1:]  # mascorta -1 pq queremos de la maslarga
+    print(output)
 
+    # 10.
+    frase = input("Frase: ")
+    analisis = ""
+    for ch in frase:
+        if ch.isalpha():  # solo las letras queremos ver
+            analisis += ch
+    print(f"Numero total de letras: {len(analisis)}")
+    vocales = ["a", "i", "u", "e", "o"]
+    counter = 0
+    for ch in analisis:
+        if ch in vocales:
+            counter += 1
+    print(f"Porcentaje de vocales: {counter/len(analisis)*100:.1f}%")
+    print(f"Porcentaje de consonantes: {(1 - counter/len(analisis))*100:.1f}%")
 
-# # bonus
-# elif nivel == "bonus":
+# bonus
+elif nivel == "bonus":
+    '''esto es un vignere cypher, que es parecido al ceaser cypher per utiliza una palabra como una clave, asi hay un "shift" que no es 
+    constante, y es mas deficil de decifrar! es posible decifrar un texto, o tambien encryptlo'''
+    clave = input("Clave: ").lower()
+
+    def getKey(key):  # key will be an indexed version of keys (like keys[0])
+        shift = []
+        for ch in key:  # for each character in this one word string
+            shift.append(ord(ch) - ord('a'))  # the shift is the ascii order of the number minus the capital since all keys are capslock
+        return shift
+
+    def cypher(message, key, decrypt=True):
+        decryptMessage = ""  # final decrypted message
+        idx = 0  # initialising our index position in the message
+        key = getKey(key)  # the key we're using put into its shifts 
+
+        if decrypt:
+            key = [-1*x for x in key]  # when descrypting we want to shift it back so we want negative shifts so just each num * -1
+
+        for ch in message:
+            if ch.isalpha():  # if we have a letter we want to decrypt it
+                if ch.islower():  # checking the starting point of the alphabet for lower vs capital
+                    caseShift = ord('a')
+                else:
+                    caseShift = ord('A')
+
+                shift = key[idx % len(key)]  # so the actual key that applies just depends on how many letters we've gone over in the message so far
+                ch = chr(((ord(ch) - caseShift + shift) % 26) + caseShift)  # converting character in message with shift 
+                decryptMessage += ch  # constructing our new message
+                idx = idx + 1  # whenever  we have a letter we want to make sure we're moving our index point by one
+        
+            else:  # if we don't have a letter we leave it as is
+                decryptMessage += ch
+
+        return decryptMessage
+
+    message = input("Mensaje: ")  # el texto que vamos a cyper or decypher
+    decryptMessage = cypher(message, clave)  # using cypher function
+    print("--------------------Mensaje decifrado:--------------------")
+    print(decryptMessage)
 
 else:
     print("No es un nivel válido.")
