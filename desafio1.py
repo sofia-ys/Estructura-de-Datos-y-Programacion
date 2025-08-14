@@ -58,7 +58,7 @@ elif nivel == "2":
     output = ""  # initialising nuestro output 
     for ch in frase:
         if ch.isalpha():
-            output += chr(ord(ch) + desplaz)  # ascii del ch + deplazamiento --> back to character
+            output += chr((ord(ch) - ord('a') + desplaz) % 26 + ord('a'))  # ascii del ch + deplazamiento --> back to character (pero con %26 pq queremos que it wraps around)
         else:
             output += ch  # deja los espacios y punctuation tranquis
     print(output)
@@ -78,6 +78,7 @@ elif nivel == "3":
     masLarga = 0
     for i, palabra in enumerate(palabras):
         if len(palabra) > masLarga:  # si encontramos una mas larga, agarramos su posicion
+            masLarga = len(palabra)  # actualizar cual es la mas larga
             posMasLarga = i  
     palabras[posMasLarga] = "*"  # la mas larga la reemplazamos
     output = " ".join(palabras)  # join todos los elementos de la lista con un espacio entre ellos
