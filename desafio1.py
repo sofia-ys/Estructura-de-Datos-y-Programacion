@@ -114,7 +114,6 @@ elif nivel == "3":
 elif nivel == "bonus":
     '''esto es un vignere cypher, que es parecido al ceaser cypher per utiliza una palabra como una clave, asi hay un "shift" que no es 
     constante, y es mas deficil de decifrar! es posible decifrar un texto, o tambien encryptlo'''
-    clave = input("Clave: ").lower()
 
     def getKey(key):  # key will be an indexed version of keys (like keys[0])
         shift = []
@@ -122,12 +121,12 @@ elif nivel == "bonus":
             shift.append(ord(ch) - ord('a'))  # the shift is the ascii order of the number minus the capital since all keys are capslock
         return shift
 
-    def cypher(message, key, decrypt=True):
+    def cypher(message, key, cypherStatus):
         decryptMessage = ""  # final decrypted message
         idx = 0  # initialising our index position in the message
         key = getKey(key)  # the key we're using put into its shifts 
 
-        if decrypt:
+        if cypherStatus == "1":
             key = [-1*x for x in key]  # when descrypting we want to shift it back so we want negative shifts so just each num * -1
 
         for ch in message:
@@ -147,10 +146,18 @@ elif nivel == "bonus":
 
         return decryptMessage
 
+    clave = input("Clave: ").lower()
     message = input("Mensaje: ")  # el texto que vamos a cyper or decypher
-    decryptMessage = cypher(message, clave)  # using cypher function
-    print("--------------------Mensaje decifrado:--------------------")
-    print(decryptMessage)
+    cypherStatus = input("Selecciona descifrar 1 o cifrar 2: ")
+    decryptMessage = cypher(message, clave, cypherStatus)  # using cypher function
+    if cypherStatus == "1":
+        print("--------------------Mensaje decifrado:--------------------")
+        print(decryptMessage)
+    elif cypherStatus == "2":
+        print("--------------------Mensaje cifrado:--------------------")
+        print(decryptMessage)
+    else:
+        print("No es una opcion válida.")
 
 else:
     print("No es un nivel válido.")
