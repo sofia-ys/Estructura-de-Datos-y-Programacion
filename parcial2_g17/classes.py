@@ -1,1 +1,1 @@
-'''Here we define all functions used'''
+'''Here we define all classes used'''
